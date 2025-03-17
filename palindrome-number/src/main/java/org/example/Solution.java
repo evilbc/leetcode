@@ -8,12 +8,13 @@ public class Solution {
         if (x < 0)
             return false;
 
-        int reverse = 0;
-        int copy = x;
-        while (copy > 0) {
-            reverse = reverse*10 + copy%10;
-            copy /= 10;
+        String s = String.valueOf(x);
+        int length = s.length();
+        for (int i = 0; i < length / 2; i++) {
+            if (s.charAt(i) != s.charAt(length - i - 1))
+                return false;
         }
-        return reverse == x;
+
+        return true;
     }
 }
