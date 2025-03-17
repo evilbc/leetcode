@@ -7,14 +7,6 @@ public class Solution {
         if (needle.isEmpty())
             return 0;
 
-        int index = haystack.indexOf(needle.charAt(0));
-        while (index != -1) {
-            if (index + needle.length() > haystack.length())
-                break;
-            if (needle.equals(haystack.substring(index, index + needle.length())))
-                return index;
-            index = haystack.indexOf(needle.charAt(0), index + 1);
-        }
-        return -1;
+        return haystack.indexOf(needle);
     }
 }
