@@ -8,11 +8,17 @@ public class Solution {
         if (x < 0)
             return false;
 
-        String s = String.valueOf(x);
-        int length = s.length();
-        for (int i = 0; i < length / 2; i++) {
-            if (s.charAt(i) != s.charAt(length - i - 1))
+        int tenPower = (int) (Math.pow(10, (int) Math.log10(x)));
+
+        while (tenPower > 1) {
+            int firstDigit = x / tenPower;
+            int lastDigit = x % 10;
+            if (firstDigit != lastDigit)
                 return false;
+
+            x -= firstDigit * tenPower;
+            x /= 10;
+            tenPower /= 100;
         }
 
         return true;
