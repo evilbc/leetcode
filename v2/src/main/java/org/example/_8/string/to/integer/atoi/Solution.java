@@ -1,11 +1,6 @@
 package org.example._8.string.to.integer.atoi;
 
 class Solution {
-    public static void main(String[] args) {
-        int a = new Solution().myAtoi("-2147483649");
-        int b = 2;
-    }
-
     public int myAtoi(String s) {
         byte sign = 1;
         char[] chars = s.trim()
