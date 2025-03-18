@@ -11,18 +11,18 @@ class Solution {
             return "";
 
         Map<Character, List<Integer>> letterPositions = new HashMap<>();
-        String longest = String.valueOf(s.charAt(0));
-        int longestLength = 1;
+        int left = 0;
+        int right = 0;
 
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             letterPositions.computeIfAbsent(c, k -> new ArrayList<>());
             for (Integer startIndex : letterPositions.get(c)) {
-                if (i - startIndex < longestLength)
+                if (i - startIndex <= right - left)
                     break;
                 if (checkPalindrome(s, startIndex, i)) {
-                    longest = s.substring(startIndex, i + 1);
-                    longestLength = longest.length();
+                    right = i;
+                    left = startIndex;
                     break;
                 }
             }
@@ -30,7 +30,7 @@ class Solution {
                     .add(i);
         }
 
-        return longest;
+        return s.substring(left, right + 1);
     }
 
     private boolean checkPalindrome(String s, int startIndex, int endIndex) {
