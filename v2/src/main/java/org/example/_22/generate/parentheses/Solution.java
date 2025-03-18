@@ -9,20 +9,21 @@ class Solution {
         if (n < 1)
             return Collections.emptyList();
 
-        return generate(new StringBuilder(), 0, 0, n);
+        List<String> results = new ArrayList<>();
+        generate(new StringBuilder(), 0, 0, n, results);
+        return results;
     }
 
-    private List<String> generate(StringBuilder sb, int started, int unfinished, int n) {
+    private void generate(StringBuilder sb, int started, int unfinished, int n, List<String> results) {
         if (started == n && unfinished == 0)
-            return List.of(sb.toString());
+            results.add(sb.toString());
 
-        List<String> results = new ArrayList<>();
         if (started < n)
-            results.addAll(generate(new StringBuilder(sb).append("("), started + 1, unfinished + 1, n));
+            generate(unfinished > 0 ? new StringBuilder(sb).append("(") : sb.append("("), started + 1, unfinished + 1,
+                    n, results);
 
         if (unfinished > 0)
-            results.addAll(generate(sb.append(")"), started, unfinished - 1, n));
+            generate(sb.append(")"), started, unfinished - 1, n, results);
 
-        return results;
     }
 }
