@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Solution {
-
     public int longestNiceSubarray(int[] nums) {
         if (nums.length == 0)
             return 0;
@@ -19,23 +18,20 @@ class Solution {
     }
 
     private int calculateNiceLength(int index, int[] nums) {
-        List<Integer> seen = new ArrayList<>();
-        seen.add(nums[index]);
         int length = 1;
 
         for (int i = index + 1; i < nums.length; i++) {
-            if (!checkNice(seen, nums[i]))
+            if (!isNice(nums, index, i))
                 break;
-            seen.add(nums[i]);
             length++;
         }
 
         return length;
     }
 
-    private boolean checkNice(List<Integer> seen, int num) {
-        for (Integer i : seen) {
-            if ((i & num) != 0)
+    private boolean isNice(int[] nums, int startIndex, int index) {
+        for (int i = startIndex; i < index; i++) {
+            if ((nums[index] & nums[i]) != 0)
                 return false;
         }
 
