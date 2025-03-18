@@ -1,34 +1,39 @@
 package org.example._5.longest.palindromic.substring;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 class Solution {
     public String longestPalindrome(String s) {
         if (s.isEmpty())
             return "";
 
-        String globalMax = String.valueOf(s.charAt(0));
+        Map<Character, List<Integer>> letterPositions = new HashMap<>();
+        String longest = String.valueOf(s.charAt(0));
+        int longestLength = 1;
 
-        for (int i = 0; i < s.length() - globalMax.length(); i++) {
-            String localMax = findLongestPalindrome(s, i);
-            if (localMax.length() > globalMax.length())
-                globalMax = localMax;
-        }
-
-        return globalMax;
-    }
-
-    private String findLongestPalindrome(final String s, final int startIndex) {
-        char c = s.charAt(startIndex);
-        String longest = String.valueOf(c);
-
-        for (int i = startIndex + 1; i < s.length(); i++) {
-            if (checkPalindrome(s, startIndex, i))
-                longest = s.substring(startIndex, i + 1);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            letterPositions.computeIfAbsent(c, k -> new ArrayList<>());
+            for (Integer startIndex : letterPositions.get(c)) {
+                if (i - startIndex < longestLength)
+                    break;
+                if (checkPalindrome(s, startIndex, i)) {
+                    longest = s.substring(startIndex, i + 1);
+                    longestLength = longest.length();
+                    break;
+                }
+            }
+            letterPositions.get(c)
+                    .add(i);
         }
 
         return longest;
     }
 
-    private boolean checkPalindrome(final String s, int startIndex, int endIndex) {
+    private boolean checkPalindrome(String s, int startIndex, int endIndex) {
         while (startIndex < endIndex) {
             if (s.charAt(startIndex) != s.charAt(endIndex))
                 return false;
