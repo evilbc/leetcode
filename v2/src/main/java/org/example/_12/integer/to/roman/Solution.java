@@ -1,64 +1,62 @@
 package org.example._12.integer.to.roman;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class Solution {
-    private static final String THOUSAND = "M";
-    private static final String FIVE_HUNDRED = "D";
-    private static final String HUNDRED = "C";
-    private static final String FIFTY = "L";
-    private static final String TEN = "X";
-    private static final String FIVE = "V";
-    private static final String ONE = "I";
+    private static final List<Rule> RULES = buildRules();
+
+    private static List<Rule> buildRules() {
+        List<Rule> rules = new ArrayList<>();
+        rules.add(buildRule(1_000, "M"));
+        rules.add(buildRule(900, "CM"));
+        rules.add(buildRule(500, "D"));
+        rules.add(buildRule(400, "CD"));
+        rules.add(buildRule(100, "C"));
+        rules.add(buildRule(90, "XC"));
+        rules.add(buildRule(50, "L"));
+        rules.add(buildRule(40, "XL"));
+        rules.add(buildRule(10, "X"));
+        rules.add(buildRule(9, "IX"));
+        rules.add(buildRule(5, "V"));
+        rules.add(buildRule(4, "IV"));
+        rules.add(buildRule(1, "I"));
+        return rules;
+    }
 
     public String intToRoman(int num) {
         StringBuilder sb = new StringBuilder();
         while (num > 0) {
-            if (num >= 1_000) {
-                sb.append(THOUSAND);
-                num -= 1_000;
-            } else if (num >= 900) {
-                sb.append(HUNDRED)
-                        .append(THOUSAND);
-                num -= 900;
-            } else if (num >= 500) {
-                sb.append(FIVE_HUNDRED);
-                num -= 500;
-            } else if (num >= 400) {
-                sb.append(HUNDRED)
-                        .append(FIVE_HUNDRED);
-                num -= 400;
-            } else if (num >= 100) {
-                sb.append(HUNDRED);
-                num -= 100;
-            } else if (num >= 90) {
-                sb.append(TEN)
-                        .append(HUNDRED);
-                num -= 90;
-            } else if (num >= 50) {
-                sb.append(FIFTY);
-                num -= 50;
-            } else if (num >= 40) {
-                sb.append(TEN)
-                        .append(FIFTY);
-                num -= 40;
-            } else if (num >= 10) {
-                sb.append(TEN);
-                num -= 10;
-            } else if (num >= 9) {
-                sb.append(ONE)
-                        .append(TEN);
-                num -= 9;
-            } else if (num >= 5) {
-                sb.append(FIVE);
-                num -= 5;
-            } else if (num >= 4) {
-                sb.append(ONE)
-                        .append(FIVE);
-                num -= 4;
-            } else {
-                sb.append(ONE);
-                num -= 1;
+            for (Rule rule : RULES) {
+                if (num >= rule.getValue()) {
+                    sb.append(rule.getSymbol());
+                    num -= rule.getValue();
+                    break;
+                }
             }
         }
         return sb.toString();
+    }
+
+    private static Rule buildRule(int value, String symbol) {
+        return new Rule(value, symbol);
+    }
+
+    private static class Rule {
+        private int value;
+        private String symbol;
+
+        public Rule(int number, String symbol) {
+            this.value = number;
+            this.symbol = symbol;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public String getSymbol() {
+            return symbol;
+        }
     }
 }
