@@ -26,11 +26,15 @@ class Solution {
 
     public String intToRoman(int num) {
         StringBuilder sb = new StringBuilder();
+        int startIndex = 0;
+
         while (num > 0) {
-            for (Rule rule : RULES) {
+            for (int i = startIndex; i < RULES.size(); i++) {
+                Rule rule = RULES.get(i);
                 if (num >= rule.getValue()) {
                     sb.append(rule.getSymbol());
                     num -= rule.getValue();
+                    startIndex = i;
                     break;
                 }
             }
@@ -43,8 +47,8 @@ class Solution {
     }
 
     private static class Rule {
-        private int value;
-        private String symbol;
+        private final int value;
+        private final String symbol;
 
         public Rule(int number, String symbol) {
             this.value = number;
