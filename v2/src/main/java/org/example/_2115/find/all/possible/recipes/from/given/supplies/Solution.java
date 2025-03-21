@@ -4,56 +4,41 @@ import java.util.*;
 
 class Solution {
     public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
+        Set<String> availableSupplies = new HashSet<>(Arrays.asList(supplies));
         List<String> result = new ArrayList<>();
-        Map<String, List<String>> missingByRecipes = new HashMap<>();
-        Map<String, List<String>> missingByIngredients = new HashMap<>();
+        Map<String, Boolean> visited = new HashMap<>();
 
-        for (int i = 0; i < recipes.length; i++) {
-            String recipe = recipes[i];
-            List<String> ings = ingredients.get(i);
-            processRecipe(recipe, ings, supplies, result, missingByRecipes, missingByIngredients);
+        Map<String, List<String>> recipeIngredients = new HashMap<>();
+        for (int i = 0; i < ingredients.size(); i++) {
+            recipeIngredients.put(recipes[i], ingredients.get(i));
+        }
+
+        for (String recipe : recipes) {
+            processRecipe(recipe, recipeIngredients, availableSupplies, visited, result);
         }
 
         return result;
     }
 
-    private void processRecipe(String recipe, List<String> ingredients, String[] supplies, List<String> result,
-            Map<String, List<String>> missingByRecipes, Map<String, List<String>> missingByIngredients) {
-        boolean hasAllIngredients = true;
-        for (String ingredient : ingredients) {
-            if (!contains(supplies, ingredient) && !result.contains(ingredient)) {
-                hasAllIngredients = false;
-                missingByIngredients.computeIfAbsent(ingredient, k -> new ArrayList<>())
-                        .add(recipe);
-                missingByRecipes.computeIfAbsent(recipe, k -> new ArrayList<>())
-                        .add(ingredient);
+    private boolean processRecipe(String recipe, Map<String, List<String>> recipeIngredients,
+            Set<String> availableSupplies, Map<String, Boolean> visited, List<String> result) {
+        if (visited.containsKey(recipe))
+            return visited.get(recipe);
+
+        visited.put(recipe, false);
+        if (!recipeIngredients.containsKey(recipe))
+            return false;
+
+        for (String ingredient : recipeIngredients.get(recipe)) {
+            if (!availableSupplies.contains(ingredient) && !processRecipe(ingredient, recipeIngredients,
+                    availableSupplies, visited, result)) {
+                return false;
             }
         }
-        if (!hasAllIngredients)
-            return;
 
+        visited.put(recipe, true);
+        availableSupplies.add(recipe);
         result.add(recipe);
-
-        fillInMissing(result, recipe, missingByRecipes, missingByIngredients);
-    }
-
-    private void fillInMissing(List<String> result, String recipe, Map<String, List<String>> missingByRecipes,
-            Map<String, List<String>> missingByIngredients) {
-        for (String r : missingByIngredients.getOrDefault(recipe, Collections.emptyList())) {
-            List<String> missing = missingByRecipes.get(r);
-            missing.remove(recipe);
-            if (missing.isEmpty()) {
-                result.add(r);
-                fillInMissing(result, r, missingByRecipes, missingByIngredients);
-            }
-        }
-    }
-
-    private boolean contains(String[] arr, String str) {
-        for (String supply : arr) {
-            if (supply.equals(str))
-                return true;
-        }
-        return false;
+        return true;
     }
 }
