@@ -1,27 +1,46 @@
 package org.example._148.sort.list;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 class Solution {
     public ListNode sortList(ListNode head) {
-        List<ListNode> nodes = new ArrayList<>();
-        ListNode curr = head;
-        while (curr != null) {
-            nodes.add(curr);
-            curr = curr.next;
-        }
-        nodes.sort(Comparator.comparingInt(node -> node.val));
+        if (head == null || head.next == null)
+            return head;
 
-        ListNode newHead = new ListNode(0);
-        ListNode prev = newHead;
-        for (ListNode node : nodes) {
-            prev.next = node;
-            prev = node;
+        ListNode middle = findMiddle(head);
+
+        return merge(sortList(head), sortList(middle));
+    }
+
+    private ListNode findMiddle(ListNode head) {
+        ListNode faster = head.next;
+        ListNode slower = head;
+
+        while (faster != null && faster.next != null) {
+            faster = faster.next.next;
+            slower = slower.next;
         }
-        prev.next = null;
-        return newHead.next;
+
+        ListNode middle = slower.next;
+        slower.next = null;
+        return middle;
+    }
+
+    private ListNode merge(ListNode left, ListNode right) {
+        ListNode head = new ListNode(0);
+        ListNode current = head;
+
+        while (left != null && right != null) {
+            if (left.val < right.val) {
+                current.next = left;
+                left = left.next;
+            } else {
+                current.next = right;
+                right = right.next;
+            }
+            current = current.next;
+        }
+
+        current.next = left == null ? right : left;
+
+        return head.next;
     }
 }
