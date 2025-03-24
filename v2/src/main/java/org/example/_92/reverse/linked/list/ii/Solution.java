@@ -1,18 +1,6 @@
 package org.example._92.reverse.linked.list.ii;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class Solution {
-    public static void main(String[] args) {
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(2);
-        head.next.next = new ListNode(3);
-        head.next.next.next = new ListNode(4);
-        head.next.next.next.next = new ListNode(5);
-        new Solution().reverseBetween(head, 2, 4);
-    }
-
     public ListNode reverseBetween(ListNode head, int left, int right) {
         if (left == right)
             return head;
