@@ -17,7 +17,7 @@ class Solution {
                 continue;
             }
 
-            result.add(buldLine(words, startIndex, i, wordWidth, maxWidth));
+            result.add(buildLine(words, startIndex, i, wordWidth, maxWidth));
             startIndex = i;
             wordWidth = word.length();
             width = word.length();
@@ -26,7 +26,7 @@ class Solution {
         return result;
     }
 
-    private String buldLine(String[] words, int startIndex, int endIndex, int wordWidth, int maxWidth) {
+    private String buildLine(String[] words, int startIndex, int endIndex, int wordWidth, int maxWidth) {
         int wordCount = endIndex - startIndex;
         if (wordCount == 1) {
             return words[startIndex] + " ".repeat(maxWidth - wordWidth);
