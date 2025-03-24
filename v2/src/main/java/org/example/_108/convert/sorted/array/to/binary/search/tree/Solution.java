@@ -1,4 +1,4 @@
-package org.example._408.convert.sorted.array.to.binary.search.tree;
+package org.example._108.convert.sorted.array.to.binary.search.tree;
 
 class Solution {
     public TreeNode sortedArrayToBST(int[] nums) {
