@@ -1,30 +1,29 @@
 package org.example._71.simplify.path;
 
+import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 
 class Solution {
     public String simplifyPath(String path) {
         String[] split = path.split("/");
-        StringBuilder sb = new StringBuilder();
-        List<Integer> partIndices = new LinkedList<>();
+        Deque<String> deque = new LinkedList<>();
 
         for (String s : split) {
             if (s.equals(".") || s.isEmpty()) {
                 continue;
             }
-            if (s.equals("..")) {
-                if (partIndices.isEmpty())
-                    continue;
-                sb.delete(partIndices.getLast(), sb.length());
-                partIndices.removeLast();
-            } else {
-                partIndices.add(sb.length());
-                sb.append("/")
-                        .append(s);
+            if (!s.equals("..")) {
+                deque.addLast(s);
+            } else if (!deque.isEmpty()) {
+                deque.removeLast();
             }
         }
 
+        StringBuilder sb = new StringBuilder();
+        while (!deque.isEmpty()) {
+            sb.append('/')
+                    .append(deque.removeFirst());
+        }
         return sb.isEmpty() ? "/" : sb.toString();
     }
 }
