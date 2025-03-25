@@ -1,53 +1,82 @@
 package org.example._146.lru.cache;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 class LRUCache {
     private static final int NO_KEY = -1;
-    private final int[] recent;
-    private final Map<Integer, Integer> map;
+    private final Map<Integer, Node> map;
+    private final int capacity;
+    private final Node head;
+    private final Node tail;
+    private int size;
 
     public LRUCache(int capacity) {
-        recent = new int[capacity];
+        head = new Node(NO_KEY, NO_KEY);
+        tail = new Node(NO_KEY, NO_KEY);
+        head.next = tail;
+        tail.prev = head;
         map = new HashMap<>();
-        Arrays.fill(recent, NO_KEY);
+        size = 0;
+        this.capacity = capacity;
     }
 
     public int get(int key) {
-        useKey(key, false);
-        return map.getOrDefault(key, NO_KEY);
+        useNode(key);
+        Node node = map.get(key);
+        return node == null ? NO_KEY : node.val;
     }
 
     public void put(int key, int value) {
-        useKey(key, true);
-        map.put(key, value);
+        Node node = map.get(key);
+        if (node != null) {
+            useNode(key);
+            node.val = value;
+            return;
+        }
+        addNode(new Node(key, value));
     }
 
-    private void useKey(int key, boolean adding) {
-        int i = 0;
-        while (i < recent.length && recent[i] != NO_KEY) {
-            if (recent[i] == key) {
-                shiftUp(i);
-                return;
-            }
-            i++;
+    private void useNode(int key) {
+        Node node = map.get(key);
+        if (node == null)
+            return;
+
+        deleteNode(node);
+        addNode(node);
+    }
+
+    private void addNode(Node node) {
+        if (size == capacity) {
+            Node toDelete = tail.prev;
+            deleteNode(toDelete);
+            map.remove(toDelete.key);
         }
 
-        if (!adding)
-            return;
-        i = Math.min(i, recent.length - 1);
-        map.remove(recent[i]);
-        recent[i] = key;
-        shiftUp(i);
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+        node.prev = head;
+        map.put(node.key, node);
+
+        size++;
     }
 
-    private void shiftUp(int index) {
-        for (int i = index - 1; i >= 0; i--) {
-            int tmp = recent[i];
-            recent[i] = recent[i + 1];
-            recent[i + 1] = tmp;
+    private void deleteNode(Node node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+        node.prev = head;
+        size--;
+    }
+
+    private static class Node {
+        private Node next;
+        private Node prev;
+        private final int key;
+        private int val;
+
+        public Node(int key, int val) {
+            this.key = key;
+            this.val = val;
         }
     }
 }
