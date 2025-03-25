@@ -1,34 +1,28 @@
 package org.example._48.rotate.image;
 
-import java.util.HashSet;
-import java.util.Set;
-
 class Solution {
-    public static void main(String[] args) {
-        new Solution().rotate(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+    public void rotate(int[][] matrix) {
+        transpose(matrix);
+        flipVertically(matrix);
     }
 
-    public void rotate(int[][] matrix) {
-        Set<String> visited = new HashSet<>();
-        for (int i = 0; i <= matrix.length / 2; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                if (visited.contains(i + "," + j))
-                    continue;
-                swap(matrix, i, j, visited);
+    private void transpose(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = i; j < matrix.length; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
             }
         }
     }
 
-    private void swap(int[][] matrix, int row, int col, Set<String> visited) {
-        int tmp = matrix[row][col];
-        for (int i = 0; i < 4; i++) {
-            int prev = tmp;
-            int tmpRow = row;
-            row = col;
-            col = matrix.length - tmpRow - 1;
-            tmp = matrix[row][col];
-            matrix[row][col] = prev;
-            visited.add(row + "," + col);
+    private void flipVertically(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length / 2; j++) {
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[i][matrix.length - j - 1];
+                matrix[i][matrix.length - j - 1] = tmp;
+            }
         }
     }
 }
