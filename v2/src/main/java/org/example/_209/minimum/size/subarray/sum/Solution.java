@@ -1,10 +1,6 @@
 package org.example._209.minimum.size.subarray.sum;
 
 class Solution {
-    public static void main(String[] args) {
-        new Solution().minSubArrayLen(7, new int[] { 2, 3, 1, 2, 4, 3 });
-    }
-
     public int minSubArrayLen(int target, int[] nums) {
         int minLen = Integer.MAX_VALUE;
         int sum = 0;
