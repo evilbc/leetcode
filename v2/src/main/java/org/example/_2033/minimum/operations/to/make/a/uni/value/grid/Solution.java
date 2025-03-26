@@ -11,15 +11,8 @@ class Solution {
         int midIndex = flatGrid.length / 2;
         int mid = flatGrid[midIndex];
         int count = 0;
-        for (int i = 0; i < midIndex; i++) {
-            int howMany = howManyAdditions(mid, flatGrid[i], x);
-            if (howMany == NOT_FOUND) {
-                return NOT_FOUND;
-            }
-            count += howMany;
-        }
-        for (int i = midIndex; i < flatGrid.length; i++) {
-            int howMany = howManySubtractions(mid, flatGrid[i], x);
+        for (int num : flatGrid) {
+            int howMany = howManyOperations(mid, num, x);
             if (howMany == NOT_FOUND) {
                 return NOT_FOUND;
             }
@@ -40,11 +33,8 @@ class Solution {
         return flatGrid;
     }
 
-    private int howManyAdditions(int mid, int num, int x) {
-        return (mid - num) % x == 0 ? (mid - num) / x : NOT_FOUND;
-    }
-
-    private int howManySubtractions(int mid, int num, int x) {
-        return (num - mid) % x == 0 ? (num - mid) / x : NOT_FOUND;
+    private int howManyOperations(int mid, int num, int x) {
+        int abs = Math.abs(mid - num);
+        return abs % x == 0 ? abs / x : NOT_FOUND;
     }
 }
