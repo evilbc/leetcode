@@ -3,7 +3,7 @@ package org.example._901.online.stock.span;
 import java.util.ArrayList;
 import java.util.List;
 
-class Solution {
+class StockSpanner {
     private List<Integer> stocks;
     private List<Integer> spans;
 
