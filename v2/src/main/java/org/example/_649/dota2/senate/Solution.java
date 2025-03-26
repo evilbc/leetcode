@@ -1,10 +1,5 @@
 package org.example._649.dota2.senate;
 
-import org.example._637.average.of.levels.in.binary.tree.TreeNode;
-
-import java.util.ArrayList;
-import java.util.List;
-
 class Solution {
     public String predictPartyVictory(String senate) {
         StringBuilder sb = new StringBuilder();
