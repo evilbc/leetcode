@@ -5,11 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 class Solution {
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        solution.minimumIndex(List.of(1,2,2,2));
-    }
-
     public int minimumIndex(List<Integer> nums) {
         MajorityElementResult majorityElementResult = majorityElement(nums);
         int majorityElement = majorityElementResult.majorityElement;
