@@ -1,10 +1,6 @@
 package org.example._125.valid.palindrome;
 
 class Solution {
-    public static void main(String[] args) {
-        new Solution().isPalindrome("A man, a plan, a canal: Panama");;
-    }
-
     public boolean isPalindrome(String s) {
         if (s.isEmpty() || s.length() == 1)
             return true;
