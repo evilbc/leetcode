@@ -1,6 +1,7 @@
 package org.example._735.asteroid.collision;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 class Solution {
     public int[] asteroidCollision(int[] asteroids) {
