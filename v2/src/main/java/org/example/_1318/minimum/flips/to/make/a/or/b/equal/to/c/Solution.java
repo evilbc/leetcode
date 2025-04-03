@@ -3,10 +3,6 @@ package org.example._1318.minimum.flips.to.make.a.or.b.equal.to.c;
 class Solution {
     private static final int NUM_BITS = 32;
 
-    public static void main(String[] args) {
-        new Solution().minFlips(2, 6, 5);
-    }
-
     public int minFlips(int a, int b, int c) {
         int count = 0;
 
