@@ -3,10 +3,6 @@ package org.example._995.minimum.number.of.k.consecutive.bit.flips;
 class Solution {
     private static final int IMPOSSIBLE = -1;
 
-    public static void main(String[] args) {
-        new Solution().minKBitFlips(new int[] { 0, 0, 0, 1, 0, 1, 1, 0 }, 3);
-    }
-
     public int minKBitFlips(int[] nums, int k) {
         int flips = 0;
 
