@@ -7,10 +7,13 @@ class Solution {
         int[] result = new int[n + 1];
         result[1] = 1;
         int howManyShifts = 1;
+        int whenToIncrementShifts = 4;
 
         for (int i = 2; i <= n; i++) {
-            if (i == Math.pow(2, howManyShifts + 1))
+            if (i == whenToIncrementShifts) {
                 howManyShifts++;
+                whenToIncrementShifts *= 2;
+            }
             result[i] = result[i ^ (1 << howManyShifts)] + 1;
         }
 
