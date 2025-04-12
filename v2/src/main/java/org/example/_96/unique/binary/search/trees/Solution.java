@@ -1,10 +1,5 @@
 package org.example._96.unique.binary.search.trees;
 
-import org.example._94.binary.tree.inorder.traversal.TreeNode;
-
-import java.util.ArrayList;
-import java.util.List;
-
 class Solution {
     public int numTrees(int n) {
         return numTrees(1, n, new int[n + 1][n + 1]);
