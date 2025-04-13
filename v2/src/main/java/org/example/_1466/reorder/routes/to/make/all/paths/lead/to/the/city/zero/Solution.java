@@ -4,37 +4,31 @@ import java.util.*;
 
 class Solution {
     public int minReorder(int n, int[][] connections) {
-        Map<Integer, Map<Integer, Boolean>> graph = new HashMap<>();
-        Deque<Integer> stack = new ArrayDeque<>();
-        stack.add(0);
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
         for (int[] connection : connections) {
-            graph.computeIfAbsent(connection[0], k -> new HashMap<>())
-                    .put(connection[1], true);
-            graph.computeIfAbsent(connection[1], k -> new HashMap<>())
-                    .put(connection[0], false);
+            graph.get(connection[0])
+                    .add(-connection[1]);
+            graph.get(connection[1])
+                    .add(connection[0]);
         }
 
-        Set<Integer> notConnected = new HashSet<>();
-        for (int i = 1; i < n; i++) {
-            notConnected.add(i);
-        }
+        return dfs(graph, new boolean[n], 0);
+    }
+
+    private int dfs(List<List<Integer>> graph, boolean[] visited, int current) {
+        visited[current] = true;
         int count = 0;
+        for (int neighbor : graph.get(current)) {
+            if (visited[Math.abs(neighbor)])
+                continue;
 
-        while (!notConnected.isEmpty() && !stack.isEmpty()) {
-            int current = stack.removeLast();
-
-            for (Map.Entry<Integer, Boolean> entry : graph.computeIfAbsent(current, k -> new HashMap<>())
-                    .entrySet()) {
-                if (notConnected.contains(entry.getKey())) {
-                    notConnected.remove(entry.getKey());
-                    stack.add(entry.getKey());
-                    if (Boolean.TRUE.equals(entry.getValue())) {
-                        count++;
-                    }
-                }
-            }
+            count += dfs(graph, visited, Math.abs(neighbor));
+            if (neighbor < 0)
+                count++;
         }
-
         return count;
     }
 }
