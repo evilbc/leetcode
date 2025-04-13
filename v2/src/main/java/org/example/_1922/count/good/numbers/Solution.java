@@ -20,6 +20,6 @@ class Solution {
         if (n == 0)
             return 1;
 
-        return (n % 2 == 0) ? myPow(x * x, n / 2) % MOD : x * myPow(x * x, n / 2) % MOD;
+        return (n % 2 == 0) ? myPow(x * x % MOD, n / 2) % MOD : (x * myPow(x * x % MOD, n / 2)) % MOD;
     }
 }
