@@ -1,21 +1,16 @@
 package org.example._27.remove.element;
 
 class Solution {
-    public int removeDuplicates(int[] nums) {
-        int prev = nums[0];
-        int unique = 1;
-        int shift = 0;
+    public int removeElement(int[] nums, int val) {
+        int removed = 0;
 
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] == prev) {
-                shift++;
-            } else {
-                unique++;
-                prev = nums[i];
-                nums[i - shift] = nums[i];
+        for (int i = 0; i < nums.length - removed; i++) {
+            while (nums[i] == val && i < nums.length - removed) {
+                nums[i] = nums[nums.length - removed - 1];
+                removed++;
             }
         }
 
-        return unique;
+        return nums.length - removed;
     }
 }
