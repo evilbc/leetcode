@@ -9,10 +9,11 @@ class Solution {
 
     public int distMoney(int money, int children) {
         if (children > money) return IMPOSSIBLE;
+        if (children == 1) return money == 8 ? 1 : 0;
 
         int eightCount = 0;
         for (int i = 0; i < children - 2; i++) {
-            if (money + 8 <= children - i) {
+            if (money - 8 >= children - i - 1) {
                 eightCount++;
                 money -= 8;
             } else return eightCount;
